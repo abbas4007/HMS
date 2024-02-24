@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-
+from booking_functions.availability import check_availability
 from .models import *
 # Create your views here.
 class RoomView(View):
@@ -13,3 +13,5 @@ class BookinView(View):
         booking = Booking.objects.all()
         return render(request,'index.html',{'booking':booking})
 
+    def post(self,request):
+        pass
