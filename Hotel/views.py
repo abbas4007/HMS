@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import ListView
+
 from Hotel.booking_functions.availability import check_availability
 from .forms import AvailabilityForm
 from .models import *
@@ -10,10 +12,10 @@ class RoomListView(View):
         rooms = Room.objects.all()
         return render(request,'Hotel/room_list_view.html',{'rooms':rooms})
 
-class BookingView(View):
-    def get(self,request):
-        booking = Booking.objects.all()
-        return render(request,'booking_list_view.html',{'booking':booking})
+# class BookingView(View):
+#     def get(self,request):
+#         booking = Booking.objects.all()
+#         return render(request,'booking_list_view.html',{'booking':booking})
 
 
 class RoomDetailView(View):
@@ -47,3 +49,14 @@ class RoomDetailView(View):
             return HttpResponse(booking)
         else:
             return HttpResponse('All of this category of rooms are booked!! Try another one')
+class BookingListView(ListView):
+    model = Booking
+    template_name = "booking_list_view.html"
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            booking_list = Booking.objects.all()
+            return booking_list
+        else:
+            booking_list = Booking.objects.filter(user=self.request.user)
+            return booking_list
