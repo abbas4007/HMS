@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Successful Room Booking</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    p {
+        text-align: center;
+        color: #666;
+    }
+
+    .button {
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        padding: 10px;
+        text-align: center;
+        color: #fff;
+        background-color: #007bff; /* Blue */
+        border-radius: 5px;
+        text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Room Booking Successful!</h1>
+    <p>Your room has been successfully booked. Thank you for choosing our service.</p>
+    <p>you are booking {{ booking.room }} {{ booking }}</p>
+    <a href="{% url 'hotel:roomlist_view' %}" class="button">Back to Home</a>
+</div>
+
+</body>
+</html>

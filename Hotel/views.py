@@ -1,5 +1,6 @@
+from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 
@@ -46,19 +47,22 @@ class RoomDetailView(View):
                 check_out=data['check_out']
             )
             booking.save()
-            return HttpResponse(booking)
+            return render(request,'Hotel/successbook.html',{'booking':booking})
         else:
             return HttpResponse('All of this category of rooms are booked!! Try another one')
 
-class BookingListView(ListView):
-    model = Booking
-    template_name = "booking_list_view.html"
+class BookingListView(View):
+   def get(self,request):
+       books = Booking.objects.all()
+       return render(request,'Hotel/booking_list_view.html',{'books':books})
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_staff:
-            booking_list = Booking.objects.all()
-            return booking_list
-        else:
-            booking_list = Booking.objects.filter(user=self.request.user)
-            return booking_list
+class RoomSuccessView(View):
+    def get(self,request):
+        return render(request,'Hotel/successbook.html')
 
+class CancelBookingView(View):
+    def get(self,request,id):
+        room = Booking.objects.get(pk=id)
+        room.delete()
+        messages.success(request,'room successfully deleted','success')
+        return redirect('hotel:roomlist_view')
