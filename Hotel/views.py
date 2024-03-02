@@ -49,6 +49,7 @@ class RoomDetailView(View):
             return HttpResponse(booking)
         else:
             return HttpResponse('All of this category of rooms are booked!! Try another one')
+
 class BookingListView(ListView):
     model = Booking
     template_name = "booking_list_view.html"
@@ -60,3 +61,4 @@ class BookingListView(ListView):
         else:
             booking_list = Booking.objects.filter(user=self.request.user)
             return booking_list
+
